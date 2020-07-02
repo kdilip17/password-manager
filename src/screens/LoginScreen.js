@@ -22,35 +22,34 @@ function LoginScreen({ navigation }) {
   };
 
   return (
-    <>
       <View style={styles.container}>
-      <ImageBackground resizeMode='cover' source={require("../assets/bg.jpg")} style={styles.image}>
-        <Image
-          style={styles.logo}
-          source={require("../assets/logo.png")}
-        ></Image>
-        <KeyboardAvoidingView behavior="padding" style={styles.formContainer}>
-          <TextInput
-            placeholder="Password"
-            secureTextEntry
-            returnKeyType="next"
-            keyboardType="number-pad"
-            onChangeText={(value) => setValue(value)}
-            value={pwdvalue}
-            style={styles.input}
-          ></TextInput>
-          <TouchableOpacity
-            style={styles.buttonContainer}
-            onPress={() => {
-              onSubmit(pwdvalue);
-            }}
-          >
-            <Text style={styles.androidButtonText}>Login</Text>
-          </TouchableOpacity>
-        </KeyboardAvoidingView>
-        </ImageBackground>
+          <Image resizeMode='cover' source={require("../assets/bg.jpg")} style={styles.bgImage}></Image>
+          <View style={styles.logoContainer}>
+            <Image
+              style={styles.logo}
+              source={require("../assets/logo.png")}
+            ></Image>
+          </View>
+          <KeyboardAvoidingView behavior="padding">
+            <TextInput
+              placeholder="Password"
+              secureTextEntry
+              returnKeyType="next"
+              keyboardType="number-pad"
+              onChangeText={(value) => setValue(value)}
+              value={pwdvalue}
+              style={styles.input}
+            ></TextInput>
+            <TouchableOpacity
+              style={styles.buttonContainer}
+              onPress={() => {
+                onSubmit(pwdvalue);
+              }}
+            >
+              <Text style={styles.loginText}>Login</Text>
+            </TouchableOpacity>
+          </KeyboardAvoidingView>
       </View>
-    </>
   );
 }
 
@@ -58,18 +57,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#6bb9f0",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   logoContainer: {
-    alignItems: "center",
-    flexGrow: 2,
-    justifyContent: "center",
+    marginBottom:20,
   },
   logo: {
     width: 100,
     height: 100,
-    justifyContent: "flex-start",
-    top: 230,
-    left: 120
   },
   input: {
     height: 40,
@@ -78,27 +74,24 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: "#000",
     paddingHorizontal: 20,
-    marginTop: 240,
-    marginLeft: 30
+    borderRadius:5,
   },
-  androidButtonText: {
+  loginText: {
     textAlign: "center",
     color: "#fff",
     fontSize: 20,
   },
   buttonContainer: {
-    backgroundColor: "#E91E63",
-    width: "40%",
+    backgroundColor: "#455A64",
     paddingVertical: 10,
-    marginLeft: 100
+    borderRadius:30,
   },
-  formContainer: {
-    flex: 8,
-    flexDirection: "column",
-  },
-  image: {
+  bgImage: {
     flex: 1,
-    justifyContent: "center",
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    opacity:0.5
   },
 });
 

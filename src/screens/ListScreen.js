@@ -9,20 +9,19 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
-import { removeItem, showItem } from "../redux/reducer";
+import { removeItem, showItem, logout } from "../redux/reducer";
 
 import Header from "../components/Header";
 
 function ListView() {
   const listItems = useSelector((state) => state.itemList);
-  console.log({ listItems });
 
   const dispatch = useDispatch();
 
   return (
     <View
       style={{
-        backgroundColor: "white",
+        backgroundColor: "#ECEFF1",
         flex: 1,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
@@ -30,37 +29,50 @@ function ListView() {
         paddingVertical: 20,
       }}
     >
-      {listItems.length !== 0 ? (
+      {listItems && listItems.length !== 0 ? (
         <FlatList
           data={listItems}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <View style={styles.listItemContainer}>
-              <Text style={styles.itemTitle} numberOfLines={1}>
-                {item.name}
-              </Text>
-              {
-                item.show ? <Text style={styles.itemTitle} numberOfLines={1}>
-                {item.password}
-              </Text> : null
-              }
-              <TouchableOpacity
-                onPress={() => dispatch(showItem(item))}
-                style={styles.button}
-              >
-                <Ionicons
-                  name="ios-eye"
-                  color="#fff"
-                  size={20}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => dispatch(removeItem(item.id))}
-                style={styles.button}
-              >
-                <Ionicons name="ios-trash" color="#fff" size={20} />
-              </TouchableOpacity>
-            </View>
+            <>
+                <View style={styles.listItemContainer}>
+                  <View style={styles.listItem} >
+                    <Text style={styles.itemTitle} numberOfLines={1}>{item.name}</Text>
+                  </View>
+                  <View style={{ marginRight:5 }} >
+                    <TouchableOpacity
+                      onPress={() => dispatch(showItem(item))}
+                      style={styles.button}
+                    >
+                      <Ionicons
+                        name="ios-eye"
+                        color="#fff"
+                        size={20}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  <View>
+                    <TouchableOpacity
+                      onPress={() => dispatch(removeItem(item.id))}
+                      style={styles.deleteButton}
+                    >
+                      <Ionicons name="ios-remove-circle" color="#fff" size={20} />
+                    </TouchableOpacity>
+                  </View>
+              </View>
+                <View style={styles.passwordContainer} >
+                {
+                  item.show ?  <Text style={styles.password} numberOfLines={1}>{item.password} </Text> : null
+                }
+                </View>
+                <View
+                style={{
+                  borderBottomColor: '#263238',
+                  borderBottomWidth: 1,
+                  marginBottom:10
+                }}
+              />
+             </>
           )}
         />
       ) : (
@@ -71,20 +83,35 @@ function ListView() {
 }
 
 function ListScreen({ navigation }) {
+
+  const dispatch = useDispatch();
+  
+  const logOut = () => {
+    dispatch(logout());
+    navigation.navigate("Login");
+  }
+
   return (
     <>
-      <StatusBar barStyle="light-content" />
+      <StatusBar backgroundColor="red" barStyle="light-content"/>
       <View style={styles.container}>
-        <Header title={"List"} />
-        <ListView />
+        <Header title={"Saved Passwords"} />
         <View style={styles.fabContainer}>
+          <TouchableOpacity
+            onPress={logOut}
+            style={styles.fabButton}
+          >
+            <Ionicons name="ios-exit" color="#455A64" size={40} />
+          </TouchableOpacity>
+
           <TouchableOpacity
             onPress={() => navigation.navigate("Modal")}
             style={styles.fabButton}
           >
-            <Ionicons name="ios-add" color="#fff" size={70} />
+            <Ionicons name="ios-add" color="#455A64" size={40} />
           </TouchableOpacity>
         </View>
+        <ListView />
       </View>
     </>
   );
@@ -93,46 +120,66 @@ function ListScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "blue",
+    backgroundColor: "#455A64",
   },
   fabContainer: {
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
     flexDirection: "row",
-    position: "absolute",
-    right: 10,
-    bottom: 20,
+    margin: 20
   },
   fabButton: {
-    backgroundColor: "blue",
+    backgroundColor: "#FFF",
     borderRadius: 35,
-    width: 70,
-    height: 70,
+    width: 50,
+    height: 50,
     alignItems: "center",
     justifyContent: "center",
   },
   listItemContainer: {
     flex: 1,
-    flexDirection: "row",
-    paddingTop: 10,
-    paddingBottom: 5,
-    paddingRight: 5,
-    justifyContent: "space-between",
-    width: "100%",
-    borderBottomWidth: 0.25,
+    alignSelf: 'stretch',
+    flexDirection: 'row',
+    marginBottom:5
+  },
+  passwordContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    marginBottom:5,
+    alignSelf: 'stretch',
+  },
+  password: {
+    borderLeftColor:"#00897B",
+    borderLeftWidth:3,
+    paddingLeft:5,
+    color:"#37474F",
+    fontSize: 22,
+    fontWeight: "500",
+  },
+  listItem:{
+    flex: 1,
+    alignSelf: 'stretch',
+    marginRight:10 
   },
   itemTitle: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "400",
   },
   button: {
     borderRadius: 8,
-    backgroundColor: "#ff333390",
+    backgroundColor: "#455A64",
     padding: 5,
+    width: 40,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-  eyeIconStyl: {
-    paddingRight: 10,
-    flex: 1,
-  },
+  deleteButton: {
+    borderRadius: 8,
+    backgroundColor: "#ff4b5b",
+    padding: 5,
+    width: 40,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
 });
 
 export default ListScreen;

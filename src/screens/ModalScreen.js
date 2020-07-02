@@ -9,6 +9,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 import { addItem } from "../redux/reducer";
+import { TouchableHighlightComponent } from "react-native";
 
 function ModalScreen({ navigation }) {
   const [value, setValue] = useState("");
@@ -28,55 +29,34 @@ function ModalScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.innerContainer}>
-        <View style={styles.closeButtonContainer}>
+       <View style={styles.closeButtonContainer}>
           <TouchableOpacity
             style={styles.closeButton}
             onPress={() => navigation.goBack()}
           >
-            <Ionicons name="ios-close" color="#101010" size={40} />
+            <Ionicons name="ios-close" color="#fff" size={40} />
           </TouchableOpacity>
         </View>
         <View style={styles.modalContainer}>
-          <Text style={{ color: "#444", fontSize: 20 }}>Account Name?</Text>
+          <Text style={styles.title}>Account Name</Text>
           <TextInput
-            style={{
-              height: 50,
-              width: 200,
-              padding: 5,
-              borderColor: "gray",
-              borderBottomWidth: 1,
-            }}
+            style={styles.input}
             numberOfLines={1}
             onChangeText={(value) => setValue(value)}
             value={value}
             clearButtonMode="while-editing"
           />
-          <Text style={{ color: "#444", fontSize: 20 }}>Password?</Text>
+          <Text style={{ color: "#444", fontSize: 20 }}>Password</Text>
           <TextInput
-          secureTextEntry={true}
-            style={{
-              height: 50,
-              width: 200,
-              padding: 5,
-              borderColor: "gray",
-              borderBottomWidth: 1,
-            }}
+            secureTextEntry={true}
+            style={styles.input}
             numberOfLines={1}
             onChangeText={(value) => setMessage(value)}
             value={passwrd}
             clearButtonMode="while-editing"
           />
           <TouchableOpacity
-            style={{
-              marginTop: 10,
-              backgroundColor: "blue",
-              width: 50,
-              height: 50,
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: 5,
-            }}
+            style={styles.saveBtn}
             onPress={() => onSaveNote(value, passwrd)}
           >
             <Ionicons
@@ -86,7 +66,6 @@ function ModalScreen({ navigation }) {
             />
           </TouchableOpacity>
         </View>
-      </View>
     </View>
   );
 }
@@ -94,41 +73,60 @@ function ModalScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  innerContainer: {
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    justifyContent: "flex-end",
-    flexDirection: "row",
-    height: "60%",
+    height: "50%",
     width: "100%",
     position: "absolute",
     bottom: 0,
     right: 0,
-    backgroundColor: "#fff",
+    backgroundColor: "#ECEFF1",
+    padding:20
   },
   closeButtonContainer: {
-    position: "absolute",
     alignItems: "flex-end",
-    right: 10,
+    justifyContent: "flex-end",
+    zIndex: 1
   },
   closeButton: {
-    backgroundColor: "#d3d3d3",
+    backgroundColor: "#455A64",
     borderRadius: 20,
     width: 40,
     height: 40,
-    top: 10,
     alignItems: "center",
     justifyContent: "center",
   },
   modalContainer: {
+    flexDirection: 'column',
     justifyContent: "center",
     alignItems: "center",
-    position: "absolute",
-    margin: 60,
-    top: 10,
-    left: 50,
+    marginBottom: 10,
   },
+  input: {
+    height: 50,
+    width: 300,
+    padding: 10,
+    borderColor: "#37474F",
+    borderWidth: 1,
+    margin: 15,
+    height: 40,
+    borderRadius: 5,
+ },
+ saveBtn:
+ {
+  marginTop: 10,
+  backgroundColor: "#455A64",
+  width: 50,
+  height: 50,
+  alignItems: "center",
+  justifyContent: "center",
+  borderRadius: 5,
+ },
+ title : { 
+  color: "#263238",
+  fontSize: 20,
+  fontWeight: "400"
+ }
 });
 
 export default ModalScreen;
