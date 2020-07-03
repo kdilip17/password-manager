@@ -10,6 +10,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { removeItem, showItem, logout } from "../redux/reducer";
+import { showToast } from "../utils/utils";
 
 import Header from "../components/Header";
 
@@ -84,11 +85,12 @@ function ListView() {
 
 function ListScreen({ navigation }) {
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   
   const logOut = () => {
-    dispatch(logout());
+    // dispatch(logout());
     navigation.navigate("Login");
+    showToast("Logout successful")
   }
 
   return (

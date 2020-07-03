@@ -5,14 +5,22 @@ import { createStackNavigator } from '@react-navigation/stack'
 import LoginScreen from '../screens/LoginScreen'
 import ListScreen from '../screens/ListScreen'
 import ModalScreen from '../screens/ModalScreen'
-import TestList from "../screens/TestList";
+import PasswordScreen from "../screens/PasswordSetScreen";
+import { useSelector } from "react-redux";
 
 const Stack = createStackNavigator()
 
 function MainStackNavigator() {
+  const stateData = useSelector((state) => state);
+
+  let initialRouteRedirect = 'Login';
+  if(stateData.isFirstTime){
+    initialRouteRedirect = 'Password';
+  }
+
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Login'
+      <Stack.Navigator initialRouteName={initialRouteRedirect}
         mode='modal'
         headerMode='none'
         screenOptions={{
@@ -37,7 +45,7 @@ function MainStackNavigator() {
         <Stack.Screen name='Login' component={LoginScreen} />
         <Stack.Screen name='List' component={ListScreen} />
         <Stack.Screen name='Modal' component={ModalScreen} />
-        <Stack.Screen name='Test' component={TestList} />
+        <Stack.Screen name='Password' component={PasswordScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   )

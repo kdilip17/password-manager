@@ -7,17 +7,22 @@ import {
   KeyboardAvoidingView,
   TextInput,
   TouchableOpacity,
-  ImageBackground,
 } from "react-native";
+import { useSelector } from "react-redux";
+import { showToast } from "../utils/utils";
 
 function LoginScreen({ navigation }) {
+  const stateData = useSelector((state) => state);
+
   const [pwdvalue, setValue] = useState("");
 
   const onSubmit = (value) => {
-    if (value === "11") {
+    if(stateData.isFirstTime){
+      navigation.navigate("Password");
+    }else if (value === stateData.loginPwd) {
       navigation.navigate("List");
     } else {
-        console.warn('Invalid password')
+      showToast("Invalid Password");
     }
   };
 

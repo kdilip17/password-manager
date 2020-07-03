@@ -1,9 +1,11 @@
-import {AsyncStorage} from 'react-native';
+import { AsyncStorage } from "react-native";
 
 export const ADD_ITEM = "ADD_ITEM";
 export const SHOW_ITEM = "SHOW_ITEM";
 export const REMOVE_ITEM = "REMOVE_ITEM";
 export const LOGOUT = "LOGOUT";
+export const SET_PASSWORD = "SET_PASSWORD";
+export const VERIFY_PASSWORD = "VERIFY_PASSWORD";
 
 export const addItem = (data) => ({
   type: ADD_ITEM,
@@ -21,15 +23,37 @@ export const showItem = (data) => ({
 });
 
 export const logout = () => ({
-  type: LOGOUT
+  type: LOGOUT,
+});
+
+export const setPassword = (value) => ({
+  type: SET_PASSWORD,
+  payload: value,
+});
+
+export const verifyPassword = () => ({
+  type: VERIFY_PASSWORD,
 });
 
 const initialState = {
+  isFirstTime: true,
+  loginPwd: "",
   itemList: [],
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SET_PASSWORD:
+      state.loginPwd = action.payload;
+      state.isFirstTime = false;
+      
+      return {
+        ...state,
+      };
+    case VERIFY_PASSWORD:
+      return {
+        ...state,
+      };
     case ADD_ITEM:
       let itemList = state.itemList.concat({
         id: Math.random(),
@@ -37,17 +61,19 @@ const rootReducer = (state = initialState, action) => {
         password: action.payload.password,
         show: false,
       });
-      
-      AsyncStorage.setItem('itemList', JSON.stringify(itemList));
+
+      AsyncStorage.setItem("itemList", JSON.stringify(itemList));
 
       return {
         ...state,
         itemList: itemList,
       };
     case REMOVE_ITEM:
-      let removedList = state.itemList.filter((item) => item.id !== action.payload);
-      
-      AsyncStorage.setItem('itemList', JSON.stringify(removedList));
+      let removedList = state.itemList.filter(
+        (item) => item.id !== action.payload
+      );
+
+      AsyncStorage.setItem("itemList", JSON.stringify(removedList));
 
       return {
         ...state,
@@ -55,10 +81,12 @@ const rootReducer = (state = initialState, action) => {
       };
     case SHOW_ITEM:
       let listItem = state.itemList.map((item, i) =>
-                  item.id === action.payload.id ? { ...item, show: action.payload.show === false ? true : false } : item
-                );
-      
-      AsyncStorage.setItem('itemList', JSON.stringify(listItem));
+        item.id === action.payload.id
+          ? { ...item, show: action.payload.show === false ? true : false }
+          : item
+      );
+
+      AsyncStorage.setItem("itemList", JSON.stringify(listItem));
 
       return {
         ...state,
@@ -67,10 +95,8 @@ const rootReducer = (state = initialState, action) => {
     case LOGOUT:
       return initialState;
     default:
-      AsyncStorage.getItem('itemList')
-      .then((res) => {
-        if(res)
-        {
+      AsyncStorage.getItem("itemList").then((res) => {
+        if (res) {
           state.itemList = JSON.parse(res);
         }
       });
