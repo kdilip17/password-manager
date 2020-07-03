@@ -2,10 +2,9 @@ import * as React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
-import LoginScreen from '../screens/LoginScreen'
-import ListScreen from '../screens/ListScreen'
-import ModalScreen from '../screens/ModalScreen'
-import TestList from "../screens/TestList";
+import LoginScreen from '../screens/LoginScreen';
+import ListScreen from '../screens/ListScreen';
+import ModalScreen from '../screens/ModalScreen';
 
 const Stack = createStackNavigator()
 
@@ -37,7 +36,6 @@ function MainStackNavigator() {
         <Stack.Screen name='Login' component={LoginScreen} />
         <Stack.Screen name='List' component={ListScreen} />
         <Stack.Screen name='Modal' component={ModalScreen} />
-        <Stack.Screen name='Test' component={TestList} />
       </Stack.Navigator>
     </NavigationContainer>
   )
