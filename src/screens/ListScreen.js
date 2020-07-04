@@ -18,7 +18,6 @@ import Header from "../components/Header";
 
 function ListView() {
   const route = useRoute();
-  console.log(route.name);
   const listItems = useSelector((state) => state.itemList);
 
   const dispatch = useDispatch();
