@@ -8,11 +8,15 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setPassword } from "../redux/reducer";
 import { showToast } from "../utils/utils";
 
 function PasswordScreen({ navigation }) {
+  const stateData = useSelector((state) => state);
+  if (!stateData.isFirstTime) {
+    navigation.navigate("Login");
+  }
   const [pwdvalue, setValue] = useState("");
   const [confirmpasswrd, setConfirmValue] = useState("");
   const dispatch = useDispatch();
@@ -22,7 +26,7 @@ function PasswordScreen({ navigation }) {
       dispatch(setPassword(value));
       navigation.navigate("Login");
     } else {
-      showToast("Password not matching")
+      showToast("Password not matching");
     }
   };
 
