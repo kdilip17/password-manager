@@ -45,7 +45,10 @@ const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_PASSWORD:
       state.loginPwd = action.payload;
+
       state.isFirstTime = false;
+
+      AsyncStorage.setItem("isFirstTime", false);
       
       return {
         ...state,
@@ -93,8 +96,16 @@ const rootReducer = (state = initialState, action) => {
         itemList: listItem,
       };
     case LOGOUT:
-      return initialState;
+      return {
+        ...initialState,
+        isFirstTime: false, //Since we loggedin as a user, we are not first time anymore
+      };
     default:
+      AsyncStorage.getItem("isFirstTime").then((res) => {
+        if (res) {
+          state.isFirstTime = res;
+        }
+      });
       AsyncStorage.getItem("itemList").then((res) => {
         if (res) {
           state.itemList = JSON.parse(res);

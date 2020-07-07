@@ -19,7 +19,7 @@ function LoginScreen({ navigation }) {
   const onSubmit = (value) => {
     if(stateData.isFirstTime){
       navigation.navigate("Password");
-    }else if (value === stateData.loginPwd) {
+    } else if (value === stateData.loginPwd) {
       navigation.navigate("List");
     } else {
       showToast("Invalid Password");
@@ -52,6 +52,14 @@ function LoginScreen({ navigation }) {
               }}
             >
               <Text style={styles.loginText}>Login</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonContainer}
+              onPress={() => {
+                onSubmit(pwdvalue);
+              }}
+            >
+              <Text style={styles.loginText} onPress={() => navigation.navigate("Password")}>Register</Text>
             </TouchableOpacity>
           </KeyboardAvoidingView>
       </View>
@@ -90,6 +98,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#455A64",
     paddingVertical: 10,
     borderRadius:30,
+    marginBottom:10
   },
   bgImage: {
     flex: 1,

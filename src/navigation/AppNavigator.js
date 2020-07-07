@@ -14,9 +14,6 @@ function MainStackNavigator() {
   const stateData = useSelector((state) => state);
 
   let initialRouteRedirect = 'Login';
-  if(stateData.isFirstTime){
-    initialRouteRedirect = 'Password';
-  }
 
   return (
     <NavigationContainer>

@@ -71,6 +71,12 @@ function PasswordScreen({ navigation }) {
         >
           <Text style={styles.loginText}>Set your password</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={() => navigation.navigate("Login")}
+        >
+          <Text style={styles.loginText}>Cancel</Text>
+        </TouchableOpacity>
       </KeyboardAvoidingView>
     </View>
   );
@@ -108,6 +114,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#455A64",
     paddingVertical: 10,
     borderRadius: 30,
+    marginBottom:10
   },
   bgImage: {
     flex: 1,
